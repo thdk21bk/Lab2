@@ -121,20 +121,20 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(50);
-  int led_idx=0;// den 1 sang = 0; den 2 sang = 1
+  int sign_led=0;// sign=0 1st led; sign =1 2nd led
   while (1)
   {
     /* USER CODE END WHILE */
 	  if(timer1_flag==1) {
 		  setTimer1(50);
-		  if(led_idx==0) {
+		  if(sign_led==0) {
 			  display7SEG(1);
 		  }
 		  else {
 			  display7SEG(2);
 		  }
-		  if(led_idx==1) led_idx=0;
-		  else led_idx++;
+		  if(sign_led==1) sign_led=0;
+		  else sign_led++;
 	  }
 
     /* USER CODE BEGIN 3 */
