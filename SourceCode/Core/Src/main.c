@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "SoftwareTimer.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -95,11 +95,16 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   setTimer1(50);
-  int led_idx=0;// den 1 sang = 0; den 2 sang = 1
+  int led_sign=0;// sign 0 led 1; 1->2; 2->3; 3->4
   while (1)
   {
     /* USER CODE END WHILE */
+	  if(timer1_flag==1){
+		  setTimer1(50);
+		  if(led_sign==0){
 
+		  }
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
