@@ -63,6 +63,23 @@ static void MX_TIM2_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+int timer0_counter = 0;
+int timer0_flag = 0;
+int TIMER_CYCLE = 10;
+void setTimer0 (int duration){
+	timer0_counter = duration /TIMER_CYCLE;
+	timer0_flag = 0;
+}
+void timer_run(){
+	if(timer0_counter > 0){
+		timer0_counter--;
+		if(timer0_counter == 0) timer0_flag = 1;
+	}
+}
+void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
+	timerRun();
+}
 void display7SEG(int num){
 
 	if(num==1) {
@@ -174,8 +191,8 @@ void display7SEG(int num){
 }
 const int MAX_LED = 4;
 int index_led = 0;
-int led_buffer[4] = {1, 2, 3, 4};
-int hour=15 , min=8, second=50;
+int led_buffer[4] = {1, 2, 3, 0};
+int hour=15 , minute=8, second=50;
 void update7SEG(int index){
     switch (index){
         case 0:
@@ -217,8 +234,8 @@ void update7SEG(int index){
 void updateClockBuffer() {
 	led_buffer[0]= hour/10;
 	led_buffer[1]= hour%10;
-	led_buffer[2]= min/10;
-	led_buffer[3]= min%10;
+	led_buffer[2]= minute/10;
+	led_buffer[3]= minute%10;
 }
 int main(void)
 {
@@ -251,22 +268,26 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer1(25);
-  setTimer2(100);
-  int led_sign=0;// sign 0 led 1; 1->2; 2->3; 3->4
+  setTimer0(1000);
+  //int led_sign=0;// sign 0 led 1; 1->2; 2->3; 3->4
   while (1)
   {
     /* USER CODE END WHILE */
-	  if(timer1_flag==1){
-		  setTimer1(25);
-		  update7SEG(led_sign);
+	  if(timer0_flag==1){
+		  setTimer0(100); //1000
+		  second++;
+		  if (second>=60){
+			  second=0;
+			  minute++;
+		  }
+		  if(minute>=60){
+			  minute=0;
+			  hour++;
+		  }
+		  if(hour>=24) hour =0;
+		  updateClockBuffer();
+//		  update7SEG(led_sign);
 
-		  if(led_sign>=3) led_sign=0;
-		  else led_sign++;
-	  }
-
-	  if (timer2_flag==1) {
-		  setTimer2(100);
 		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 	  }
     /* USER CODE BEGIN 3 */
@@ -398,10 +419,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 //int counter = 100;
 
-
-void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim ){
-	timerRun();
-}
 /* USER CODE END 4 */
 
 /**
