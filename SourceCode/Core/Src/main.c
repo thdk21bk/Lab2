@@ -165,12 +165,12 @@ int main(void)
 		  if(led_sign>=3) led_sign=0;
 		  else led_sign++;
 	  }
-	  if (timer2_flag==0){
-		  HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, RESET);
-	  }
+//	  if (timer2_flag==0){
+//		  HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, RESET);
+//	  }
 	  if (timer2_flag==1) {
 		  setTimer2(100);
-		  HAL_GPIO_WritePin(DOT_GPIO_Port, DOT_Pin, SET);
+		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 	  }
     /* USER CODE BEGIN 3 */
   }
