@@ -274,7 +274,7 @@ int main(void)
   {
     /* USER CODE END WHILE */
 	  if(timer0_flag==1){
-		  setTimer0(100); //1000
+		  setTimer0(1000);
 		  second++;
 		  if (second>=60){
 			  second=0;
