@@ -288,6 +288,7 @@ int main(void)
   setTimer1(25);
   setTimer2(100);
   setTimer3(15);
+  setTimer4(100);
   int led_sign=0;// sign 0 led 1; 1->2; 2->3; 3->4
   while (1)
   {
@@ -313,12 +314,17 @@ int main(void)
 		  }
 		  if(hour >=24) hour = 0;
 		  updateClockBuffer();
-		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
 	  }
+
   	  if(timer3_flag==1) {
   		  setTimer3(15);
   		  updateLedMatrix(index_led_matrix++);
   		  if(index_led_matrix==MAX_LED_MATRIX) index_led_matrix=0;
+  	  }
+
+  	  if(timer4_flag==1){
+  		  setTimer4(100);
+		  HAL_GPIO_TogglePin(DOT_GPIO_Port, DOT_Pin);
   	  }
     /* USER CODE BEGIN 3 */
   }
